@@ -1,5 +1,6 @@
 const update = document.querySelector('#update-button')
-
+const deleteInputButton = document.querySelector('#deleteButton')
+deleteInputButton.addEventListener('click', deleteEntry)
 update.addEventListener('click', _=> {
     fetch('quotes', {
         method: 'put',
@@ -39,3 +40,23 @@ deleteButton.addEventListener('click', _=> {
    
     .catch(console.error)
 })
+
+async function deleteEntry(){
+    const input = document.getElementById("deleteInput")
+    console.log(input.value)
+    try{
+        const response = await fetch('deleteEntry', {
+            method: 'delete',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+              name: input.value
+            })
+          })
+        const data = await response.json()
+        console.log(data)
+        location.reload()
+
+    }catch(err){
+        console.log(err)
+    }
+}

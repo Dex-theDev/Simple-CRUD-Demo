@@ -17,7 +17,7 @@ dotenv.config()
 
 
 
-MongoClient.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.lvio90e.mongodb.net/?retryWrites=true&w=majority`,{
+MongoClient.connect(`mongodb+srv://${DB_USERNAME}:${DB_PASSWORD}@cluster0.1ce5ksx.mongodb.net/?retryWrites=true&w=majority`,{
     useUnifiedTopology: true})
 .then(client => {
     console.log('Connected to Database')
@@ -84,7 +84,14 @@ MongoClient.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_P
       .catch(error => console.error(error))
     })
     
-    
+    app.delete('/deleteEntry', (request, response) => {
+      quotesCollection.deleteOne({name: request.body.name})
+      .then(result => {
+          console.log('Entry Deleted')
+          response.json('Entry Deleted')
+      })
+      .catch(error => console.error(error))
+  })
   
     app.listen(3000, function(){
         console.log('listening on 3000')
